@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from tinymce.models import HTMLField
-from core.utils import extract_youtube_id
+from core.utils import extract_youtube_id, fetch_bandcamp_embed
 
 
 class Page(models.Model):
@@ -56,20 +56,22 @@ class Video(models.Model):
 
 
 class BandcampEmbed(models.Model):
-    """
-    A featured media item on the Listen page / homepage.
-    Use embed_code for Bandcamp iframes OR youtube_url for YouTube — not both.
-    """
+    """Featured media item on the Listen page / homepage."""
 
     title = models.CharField(max_length=200)
+    bandcamp_url = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text='Paste the Bandcamp album or track URL — embed code is fetched automatically',
+    )
     embed_code = models.TextField(
         blank=True,
-        help_text='Bandcamp: paste the full &lt;iframe&gt; embed code from Share/Embed',
+        help_text='Auto-populated from Bandcamp URL. Override here if needed.',
     )
     youtube_url = models.CharField(
         max_length=200,
         blank=True,
-        help_text='YouTube: paste the full video URL — leave blank if using Bandcamp embed code',
+        help_text='YouTube URL — alternative to Bandcamp',
     )
     description = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
@@ -80,6 +82,13 @@ class BandcampEmbed(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.bandcamp_url:
+            fetched = fetch_bandcamp_embed(self.bandcamp_url)
+            if fetched:
+                self.embed_code = fetched
+        super().save(*args, **kwargs)
 
     @property
     def youtube_embed_url(self):

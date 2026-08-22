@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from tinymce.models import HTMLField
-from core.utils import extract_youtube_id
+from core.utils import extract_youtube_id, fetch_bandcamp_embed
 
 
 class Post(models.Model):
@@ -25,6 +25,12 @@ class Post(models.Model):
         blank=True,
         help_text='Optional: paste a YouTube URL to embed a video in the post',
     )
+    bandcamp_url = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text='Optional: paste a Bandcamp album or track URL to embed audio',
+    )
+    bandcamp_embed_html = models.TextField(blank=True, editable=False)
     image = models.ImageField(upload_to='blog/', blank=True, null=True)
     image_caption = models.CharField(max_length=300, blank=True)
     tags = models.CharField(
@@ -53,6 +59,13 @@ class Post(models.Model):
     def youtube_embed_url(self):
         vid = extract_youtube_id(self.youtube_url)
         return f'https://www.youtube.com/embed/{vid}' if vid else ''
+
+    def save(self, *args, **kwargs):
+        if self.bandcamp_url:
+            fetched = fetch_bandcamp_embed(self.bandcamp_url)
+            if fetched:
+                self.bandcamp_embed_html = fetched
+        super().save(*args, **kwargs)
 
     def get_list_url(self):
         return reverse(self.category)

@@ -32,6 +32,12 @@
   </div>
   {% endif %}
 
+  {% if post.bandcamp_embed_html %}
+  <div class="mb-10 max-w-2xl">
+    {{ post.bandcamp_embed_html|safe }}
+  </div>
+  {% endif %}
+
   <div class="prose-content text-neutral-300 leading-relaxed max-w-2xl">
     {{ post.content|safe }}
   </div>

@@ -13,6 +13,6 @@ class PostAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {'fields': ('title', 'slug', 'category', 'is_published', 'published_at')}),
         ('Content', {'fields': ('content', 'excerpt')}),
-        ('Media', {'fields': ('youtube_url', 'image', 'image_caption')}),
+        ('Media', {'fields': ('youtube_url', 'bandcamp_url', 'image', 'image_caption')}),
         ('Tags', {'fields': ('tags',)}),
     )
