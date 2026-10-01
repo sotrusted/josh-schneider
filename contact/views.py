@@ -54,13 +54,10 @@ def _send_contact_email(msg: ContactMessage):
         f'Email: {msg.email}\n\n'
         f'{msg.message}'
     )
-    try:
-        send_mail(
-            subject,
-            body,
-            settings.EMAIL_HOST_USER or 'noreply@joshuashneider.com',
-            [settings.CONTACT_EMAIL],
-            fail_silently=True,
-        )
-    except Exception:
-        pass
+    send_mail(
+        subject,
+        body,
+        settings.EMAIL_HOST_USER or 'noreply@joshuashneider.com',
+        [settings.CONTACT_EMAIL],
+        fail_silently=False,
+    )
