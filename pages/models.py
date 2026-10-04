@@ -12,6 +12,12 @@ class Page(models.Model):
     content = HTMLField()
     hero_image = models.ImageField(upload_to='pages/', blank=True, null=True)
     hero_image_caption = models.CharField(max_length=200, blank=True)
+    audio_file = models.FileField(
+        upload_to='audio/',
+        blank=True,
+        null=True,
+        help_text='Optional MP3/audio file displayed as a player on this page',
+    )
     is_published = models.BooleanField(default=True)
     nav_order = models.PositiveSmallIntegerField(default=10, help_text='Lower = earlier in nav')
     updated_at = models.DateTimeField(auto_now=True)
@@ -33,7 +39,14 @@ class Video(models.Model):
     youtube_url = models.CharField(
         max_length=200,
         default='',
+        blank=True,
         help_text='Paste the full YouTube URL, e.g. https://www.youtube.com/watch?v=…',
+    )
+    video_file = models.FileField(
+        upload_to='videos/',
+        blank=True,
+        null=True,
+        help_text='Upload an MP4/WebM video file (alternative to YouTube URL)',
     )
     description = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)

@@ -18,6 +18,14 @@
   </div>
   {% endif %}
 
+  {% if page.audio_file %}
+  <div class="mb-10 max-w-2xl">
+    <audio controls class="w-full" preload="metadata">
+      <source src="{{ page.audio_file.url }}">
+    </audio>
+  </div>
+  {% endif %}
+
   <div class="prose-content text-neutral-300 leading-relaxed max-w-2xl">
     {{ page.content|safe }}
   </div>

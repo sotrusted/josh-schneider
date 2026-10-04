@@ -33,6 +33,12 @@ class Post(models.Model):
     bandcamp_embed_html = models.TextField(blank=True, editable=False)
     image = models.ImageField(upload_to='blog/', blank=True, null=True)
     image_caption = models.CharField(max_length=300, blank=True)
+    audio_file = models.FileField(
+        upload_to='audio/',
+        blank=True,
+        null=True,
+        help_text='Optional MP3/audio file displayed as a player in this post',
+    )
     tags = models.CharField(
         max_length=300,
         blank=True,

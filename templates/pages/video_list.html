@@ -17,15 +17,23 @@
       {% if video.description %}
       <p class="text-sm text-neutral-500 mb-4">{{ video.description }}</p>
       {% endif %}
+      {% if video.video_file %}
+      <div class="w-full max-w-2xl bg-neutral-900">
+        <video controls class="w-full" preload="metadata">
+          <source src="{{ video.video_file.url }}">
+        </video>
+      </div>
+      {% elif video.embed_url %}
       <div class="aspect-video w-full max-w-2xl bg-neutral-900">
         <iframe
           src="{{ video.embed_url }}"
           title="{{ video.title }}"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
           class="w-full h-full border-0">
         </iframe>
       </div>
+      {% endif %}
     </article>
     {% endfor %}
   </div>

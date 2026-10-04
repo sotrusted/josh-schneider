@@ -6,15 +6,16 @@
 {% block content %}
 <style>
   .stat-cards { display:flex; gap:1.5rem; flex-wrap:wrap; margin-bottom:2rem; }
-  .stat-card { background:#fff; border:1px solid #ddd; border-radius:4px; padding:1.25rem 2rem; min-width:130px; text-align:center; }
+  .stat-card { background:var(--darkened-bg,#f8f8f8); border:1px solid var(--border-color,#ddd); border-radius:4px; padding:1.25rem 2rem; min-width:130px; text-align:center; }
   .stat-card .num { font-size:2.2rem; font-weight:700; color:#417690; line-height:1; }
-  .stat-card .label { font-size:0.78rem; color:#666; margin-top:0.3rem; text-transform:uppercase; letter-spacing:.05em; }
-  .stat-card.muted .num { color:#999; }
+  .stat-card .label { font-size:0.78rem; color:var(--body-quiet-color,#666); margin-top:0.3rem; text-transform:uppercase; letter-spacing:.05em; }
+  .stat-card.muted .num { color:var(--body-quiet-color,#999); }
   table.stat-table { width:100%; border-collapse:collapse; margin-bottom:2rem; }
-  table.stat-table th { background:#f8f8f8; text-align:left; padding:.4rem .7rem; font-size:.8rem; text-transform:uppercase; color:#666; border-bottom:1px solid #ddd; }
-  table.stat-table td { padding:.4rem .7rem; border-bottom:1px solid #eee; font-size:.9rem; word-break:break-all; }
-  table.stat-table td.n { text-align:right; font-weight:600; color:#417690; width:60px; }
-  h2.section { font-size:1rem; margin:1.5rem 0 .5rem; color:#333; }
+  table.stat-table th { background:var(--darkened-bg,#f8f8f8); text-align:left; padding:.5rem .8rem; font-size:.8rem; text-transform:uppercase; color:var(--body-quiet-color,#666); border-bottom:1px solid var(--border-color,#ddd); }
+  table.stat-table td { padding:.45rem .8rem; border-bottom:1px solid var(--border-color,#eee); font-size:.9rem; word-break:break-all; color:var(--body-fg,#333); }
+  table.stat-table td.n { text-align:right; font-weight:700; color:#417690; width:60px; }
+  h2.section { font-size:.85rem; margin:2rem 0 .6rem; color:var(--body-quiet-color,#666); text-transform:uppercase; letter-spacing:.06em; font-weight:600; border-bottom:1px solid var(--border-color,#eee); padding-bottom:.4rem; }
+  .stats-note { font-size:.8rem; color:var(--body-quiet-color,#999); margin-top:2rem; }
 </style>
 
 <div class="stat-cards">
@@ -74,7 +75,7 @@
   {% endfor %}
 </table>
 
-<p style="font-size:.8rem;color:#999;margin-top:2rem">
+<p class="stats-note">
   Bot traffic is excluded from all counts above. A weekly email summary is sent to josh@joshuashneider.com every Monday.
 </p>
 {% endblock %}
