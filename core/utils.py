@@ -48,7 +48,7 @@ def fetch_bandcamp_embed(url: str) -> str:
             tracklist = 'tracklist=true/' if kind == 'album' else ''
             return (
                 f'<iframe style="border:0;width:100%;height:{height};" '
-                f'src="https://bandcamp.com/EmbeddedPlayer/{kind}={item_id}/size=large/{tracklist}bgcol=ffffff/linkcol=b8965a/transparent=true/" '
+                f'src="https://bandcamp.com/EmbeddedPlayer/{kind}={item_id}/size=large/{tracklist}bgcol=111111/linkcol=b8965a/" '
                 f'seamless><a href="{url}">Listen on Bandcamp</a></iframe>'
             )
     except Exception:
