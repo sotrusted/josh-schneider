@@ -1,5 +1,14 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from .models import SiteSettings
+
+# Admin branding
+admin.site.site_header = "Joshua Shneider — Website Admin"
+admin.site.site_title = "Josh Site"
+admin.site.index_title = "What would you like to update?"
+
+# Hide Groups — Josh doesn't need to manage these
+admin.site.unregister(Group)
 
 
 @admin.register(SiteSettings)
