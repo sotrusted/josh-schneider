@@ -48,6 +48,9 @@ class SiteSettings(models.Model):
             "we'd love to hear from you!"
         ),
     )
+    lifetime_human_visits = models.PositiveBigIntegerField(default=0)
+    lifetime_bot_visits = models.PositiveBigIntegerField(default=0)
+
     hero_image = models.ImageField(upload_to='site/', blank=True, null=True)
     header_banner = models.ImageField(
         upload_to='site/',

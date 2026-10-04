@@ -47,13 +47,15 @@ class SiteStatsAdmin(admin.ModelAdmin):
         humans = PageVisit.objects.filter(is_bot=False)
         total_30d = humans.filter(visited_at__gte=month_ago).count()
 
+        site = SiteSettings.get()
+        live_human_total = humans.count()
         ctx = {
             **self.admin_site.each_context(request),
             'title': 'Visitor Stats',
             'today': humans.filter(visited_at__gte=day_ago).count(),
             'this_week': humans.filter(visited_at__gte=week_ago).count(),
             'this_month': total_30d,
-            'total_all': humans.count(),
+            'total_all': site.lifetime_human_visits + live_human_total,
             'bot_count_30d': PageVisit.objects.filter(is_bot=True, visited_at__gte=month_ago).count(),
             'top_pages': (
                 humans.filter(visited_at__gte=month_ago)
