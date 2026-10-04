@@ -64,7 +64,7 @@
       <article class="flex gap-6 items-start border-b border-neutral-800/50 pb-8 last:border-0">
         {% if post.image %}
         <a href="{{ post.get_absolute_url }}" class="shrink-0">
-          <img src="{{ post.image.url }}" alt="{{ post.title }}" loading="lazy"
+          <img src="{{ post.image.url }}" alt="{{ post.title }}"
                class="w-24 h-24 object-cover grayscale hover:grayscale-0 transition-all">
         </a>
         {% endif %}
