@@ -44,9 +44,11 @@ def fetch_bandcamp_embed(url: str) -> str:
         m = re.search(rf'EmbeddedPlayer[^"\']*/{kind}=(\d+)', html)
         if m:
             item_id = m.group(1)
+            height = '470px' if kind == 'album' else '120px'
+            tracklist = 'tracklist=true/' if kind == 'album' else ''
             return (
-                f'<iframe style="border:0;width:100%;height:120px;" '
-                f'src="https://bandcamp.com/EmbeddedPlayer/{kind}={item_id}/size=small/bgcol=ffffff/linkcol=b8965a/transparent=true/" '
+                f'<iframe style="border:0;width:100%;height:{height};" '
+                f'src="https://bandcamp.com/EmbeddedPlayer/{kind}={item_id}/size=large/{tracklist}bgcol=ffffff/linkcol=b8965a/transparent=true/" '
                 f'seamless><a href="{url}">Listen on Bandcamp</a></iframe>'
             )
     except Exception:
