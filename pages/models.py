@@ -52,7 +52,7 @@ class Video(models.Model):
     @property
     def embed_url(self):
         vid = self.video_id
-        return f'https://www.youtube.com/embed/{vid}' if vid else ''
+        return f'https://www.youtube-nocookie.com/embed/{vid}?origin=https://joshuashneider.com' if vid else ''
 
 
 class BandcampEmbed(models.Model):

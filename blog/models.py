@@ -58,7 +58,7 @@ class Post(models.Model):
     @property
     def youtube_embed_url(self):
         vid = extract_youtube_id(self.youtube_url)
-        return f'https://www.youtube.com/embed/{vid}' if vid else ''
+        return f'https://www.youtube-nocookie.com/embed/{vid}?origin=https://joshuashneider.com' if vid else ''
 
     def save(self, *args, **kwargs):
         if self.bandcamp_url:
