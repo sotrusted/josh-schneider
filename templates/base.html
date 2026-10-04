@@ -37,10 +37,10 @@
     <!-- Nav -->
     <nav class="border-t border-neutral-800/50 overflow-x-auto">
       <ul class="flex max-w-5xl mx-auto px-6 gap-0 whitespace-nowrap text-xs tracking-widest uppercase">
-        <li><a href="{% url 'home' %}" class="nav-link {% block nav_home %}{% endblock %}">Welcome</a></li>
+        <li><a href="{% url 'home' %}" class="nav-link {% block nav_home %}{% endblock %}">Home</a></li>
         <li><a href="{% url 'page_detail' 'bio' %}" class="nav-link {% block nav_bio %}{% endblock %}">Bio</a></li>
-        <li><a href="{% url 'page_detail' 'orchestra' %}" class="nav-link {% block nav_orchestra %}{% endblock %}">The Love Speaks Orchestra</a></li>
-        <li><a href="{{ site.bandcamp_url }}" target="_blank" rel="noopener" class="nav-link">Listen / Store ↗</a></li>
+        <li><a href="{% url 'page_detail' 'orchestra' %}" class="nav-link {% block nav_orchestra %}{% endblock %}">Orchestra</a></li>
+        <li><a href="{% url 'listen' %}" class="nav-link {% block nav_listen %}{% endblock %}">Listen</a></li>
         <li><a href="{% url 'video_list' %}" class="nav-link {% block nav_video %}{% endblock %}">Video</a></li>
         <li><a href="{% url 'news' %}" class="nav-link {% block nav_news %}{% endblock %}">News</a></li>
         <li><a href="{% url 'page_detail' 'services' %}" class="nav-link {% block nav_services %}{% endblock %}">Services</a></li>
