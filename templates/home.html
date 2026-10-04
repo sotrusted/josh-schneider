@@ -10,7 +10,7 @@
     <div class="flex flex-col sm:flex-row gap-10 sm:gap-16 items-start">
       {% if site.hero_image %}
       <div class="shrink-0">
-        <img src="{{ site.hero_image.url }}" alt="{{ site.site_name }}"
+        <img src="{{ site.hero_image.url }}" alt="{{ site.site_name }}" fetchpriority="high"
              class="w-48 sm:w-56 object-cover grayscale">
       </div>
       {% endif %}
@@ -64,7 +64,7 @@
       <article class="flex gap-6 items-start border-b border-neutral-800/50 pb-8 last:border-0">
         {% if post.image %}
         <a href="{{ post.get_absolute_url }}" class="shrink-0">
-          <img src="{{ post.image.url }}" alt="{{ post.title }}"
+          <img src="{{ post.image.url }}" alt="{{ post.title }}" loading="lazy"
                class="w-24 h-24 object-cover grayscale hover:grayscale-0 transition-all">
         </a>
         {% endif %}

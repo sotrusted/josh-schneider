@@ -24,7 +24,7 @@
   </div>
   {% elif post.image %}
   <div class="mb-10">
-    <img src="{{ post.image.url }}" alt="{{ post.title }}"
+    <img src="{{ post.image.url }}" alt="{{ post.title }}" loading="lazy"
          class="w-full max-w-2xl object-cover">
     {% if post.image_caption %}
     <p class="text-xs text-neutral-600 mt-2">{{ post.image_caption }}</p>
