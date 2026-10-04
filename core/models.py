@@ -1,4 +1,32 @@
+import hashlib
 from django.db import models
+
+
+class PageVisit(models.Model):
+    path = models.CharField(max_length=500)
+    ip_hash = models.CharField(max_length=64)
+    user_agent = models.CharField(max_length=500, blank=True)
+    referrer = models.CharField(max_length=500, blank=True)
+    is_bot = models.BooleanField(default=False, db_index=True)
+    visited_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['visited_at', 'is_bot']),
+            models.Index(fields=['path', 'visited_at']),
+        ]
+
+    @classmethod
+    def human_visits(cls):
+        return cls.objects.filter(is_bot=False)
+
+
+class SiteStats(PageVisit):
+    """Proxy model — admin-only stats dashboard, no extra DB table."""
+    class Meta:
+        proxy = True
+        verbose_name = 'Visitor Stats'
+        verbose_name_plural = '📊 Visitor Stats'
 
 
 class SiteSettings(models.Model):

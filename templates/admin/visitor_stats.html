@@ -1,0 +1,80 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content_title %}<h1>Visitor Stats</h1>{% endblock %}
+
+{% block content %}
+<style>
+  .stat-cards { display:flex; gap:1.5rem; flex-wrap:wrap; margin-bottom:2rem; }
+  .stat-card { background:#fff; border:1px solid #ddd; border-radius:4px; padding:1.25rem 2rem; min-width:130px; text-align:center; }
+  .stat-card .num { font-size:2.2rem; font-weight:700; color:#417690; line-height:1; }
+  .stat-card .label { font-size:0.78rem; color:#666; margin-top:0.3rem; text-transform:uppercase; letter-spacing:.05em; }
+  .stat-card.muted .num { color:#999; }
+  table.stat-table { width:100%; border-collapse:collapse; margin-bottom:2rem; }
+  table.stat-table th { background:#f8f8f8; text-align:left; padding:.4rem .7rem; font-size:.8rem; text-transform:uppercase; color:#666; border-bottom:1px solid #ddd; }
+  table.stat-table td { padding:.4rem .7rem; border-bottom:1px solid #eee; font-size:.9rem; word-break:break-all; }
+  table.stat-table td.n { text-align:right; font-weight:600; color:#417690; width:60px; }
+  h2.section { font-size:1rem; margin:1.5rem 0 .5rem; color:#333; }
+</style>
+
+<div class="stat-cards">
+  <div class="stat-card">
+    <div class="num">{{ today }}</div>
+    <div class="label">Today</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">{{ this_week }}</div>
+    <div class="label">Last 7 days</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">{{ this_month }}</div>
+    <div class="label">Last 30 days</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">{{ total_all }}</div>
+    <div class="label">All time</div>
+  </div>
+  <div class="stat-card muted">
+    <div class="num">{{ bot_count_30d }}</div>
+    <div class="label">Bots (30d, filtered)</div>
+  </div>
+</div>
+
+<h2 class="section">Top pages — last 30 days</h2>
+<table class="stat-table">
+  <tr><th>Page</th><th style="text-align:right">Visits</th></tr>
+  {% for row in top_pages %}
+  <tr><td>{{ row.path }}</td><td class="n">{{ row.n }}</td></tr>
+  {% empty %}
+  <tr><td colspan="2">No data yet.</td></tr>
+  {% endfor %}
+</table>
+
+<h2 class="section">Top referrers — last 30 days</h2>
+<table class="stat-table">
+  <tr><th>Referrer</th><th style="text-align:right">Visits</th></tr>
+  {% for row in top_referrers %}
+  <tr><td>{{ row.referrer }}</td><td class="n">{{ row.n }}</td></tr>
+  {% empty %}
+  <tr><td colspan="2">No referrer data yet.</td></tr>
+  {% endfor %}
+</table>
+
+<h2 class="section">Recent visitors — last 7 days</h2>
+<table class="stat-table">
+  <tr><th>Time</th><th>Page</th><th>Referrer</th></tr>
+  {% for v in recent %}
+  <tr>
+    <td style="white-space:nowrap;color:#888;font-size:.8rem">{{ v.visited_at|date:"M j, g:i a" }}</td>
+    <td>{{ v.path }}</td>
+    <td style="color:#999;font-size:.8rem">{{ v.referrer|truncatechars:60 }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="3">No visits yet.</td></tr>
+  {% endfor %}
+</table>
+
+<p style="font-size:.8rem;color:#999;margin-top:2rem">
+  Bot traffic is excluded from all counts above. A weekly email summary is sent to josh@joshuashneider.com every Monday.
+</p>
+{% endblock %}
