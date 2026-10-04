@@ -27,11 +27,33 @@ def extract_youtube_id(url: str) -> str:
 
 
 def fetch_bandcamp_embed(url: str) -> str:
-    """Call Bandcamp's oEmbed endpoint and return the iframe HTML, or '' on failure."""
+    """
+    Build a Bandcamp iframe by scraping the album/track ID from the page's
+    og:video meta tag. Falls back to the oEmbed API, then gives up.
+    """
     if not url:
         return ''
+    url = url.strip()
+    # Determine if album or track
+    kind = 'track' if '/track/' in url else 'album'
     try:
-        oembed = f'https://bandcamp.com/oembed?url={url.strip()}&format=json'
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            html = r.read().decode('utf-8', errors='replace')
+        # Extract numeric ID from the EmbeddedPlayer meta tag
+        m = re.search(rf'EmbeddedPlayer[^"\']*/{kind}=(\d+)', html)
+        if m:
+            item_id = m.group(1)
+            return (
+                f'<iframe style="border:0;width:100%;height:120px;" '
+                f'src="https://bandcamp.com/EmbeddedPlayer/{kind}={item_id}/size=small/bgcol=ffffff/linkcol=b8965a/transparent=true/" '
+                f'seamless><a href="{url}">Listen on Bandcamp</a></iframe>'
+            )
+    except Exception:
+        pass
+    # Fallback: oEmbed
+    try:
+        oembed = f'https://bandcamp.com/oembed?url={url}&format=json'
         req = urllib.request.Request(oembed, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=8) as r:
             return json.loads(r.read()).get('html', '')
