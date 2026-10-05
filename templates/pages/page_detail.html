@@ -20,9 +20,40 @@
 
   {% if page.audio_file %}
   <div class="mb-10 max-w-2xl">
-    <audio controls class="w-full" preload="metadata">
-      <source src="{{ page.audio_file.url }}">
-    </audio>
+    <div class="bg-neutral-900 border border-neutral-800 rounded px-5 py-4 flex items-center gap-4">
+      <button id="js-play-btn" class="flex-shrink-0 w-10 h-10 flex items-center justify-center text-gold hover:text-amber-400 transition-colors" aria-label="Play / Pause">
+        <svg id="js-icon-play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="js-icon-pause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 hidden"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+      <div class="flex-1 min-w-0">
+        <input id="js-progress" type="range" class="w-full accent-yellow-600 cursor-pointer" value="0" min="0" step="0.01">
+        <div class="flex justify-between text-xs text-neutral-600 mt-1">
+          <span id="js-current">0:00</span>
+          <span id="js-duration">–:––</span>
+        </div>
+      </div>
+    </div>
+    <audio id="js-audio" preload="metadata"><source src="{{ page.audio_file.url }}"></audio>
+    <script>
+    (function(){
+      var a=document.getElementById('js-audio'),
+          btn=document.getElementById('js-play-btn'),
+          iPlay=document.getElementById('js-icon-play'),
+          iPause=document.getElementById('js-icon-pause'),
+          bar=document.getElementById('js-progress'),
+          cur=document.getElementById('js-current'),
+          dur=document.getElementById('js-duration');
+      function fmt(s){var m=Math.floor(s/60);return m+':'+(('0'+Math.floor(s%60)).slice(-2));}
+      a.addEventListener('loadedmetadata',function(){bar.max=a.duration;dur.textContent=fmt(a.duration);});
+      a.addEventListener('timeupdate',function(){bar.value=a.currentTime;cur.textContent=fmt(a.currentTime);});
+      a.addEventListener('ended',function(){iPlay.classList.remove('hidden');iPause.classList.add('hidden');});
+      bar.addEventListener('input',function(){a.currentTime=bar.value;});
+      btn.addEventListener('click',function(){
+        if(a.paused){a.play();iPlay.classList.add('hidden');iPause.classList.remove('hidden');}
+        else{a.pause();iPlay.classList.remove('hidden');iPause.classList.add('hidden');}
+      });
+    })();
+    </script>
   </div>
   {% endif %}
 
