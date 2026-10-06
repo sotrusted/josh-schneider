@@ -19,7 +19,8 @@
   <div class="mb-10 aspect-video w-full max-w-2xl bg-neutral-900">
     <iframe src="{{ post.youtube_embed_url }}"
       title="{{ post.title }}"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
       allowfullscreen class="w-full h-full border-0"></iframe>
   </div>
   {% elif post.image %}
